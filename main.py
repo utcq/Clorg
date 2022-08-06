@@ -10,7 +10,7 @@ def setup():
         os.mkdir(f"{home}/.config/clorg/")
         open(f"{home}/.config/clorg/default.list", "w").write("")
         url = "https://github.com/UnityTheCoder/Clorg/raw/main/gum"
-        os.system(f"sudo curl -L {url} > /usr/bin/gum")
+        os.system(f"sudo sh -c 'curl -L {url} > /usr/bin/gum'; sudo chmod +x /usr/bin/gum")
     except Exception as e:
         print(e)
 
