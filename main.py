@@ -1,6 +1,7 @@
 import lib.wrapper as gw
 import re, os, sys
 from tabulate import tabulate
+import requests
 
 home = os.path.expanduser('~')
 
@@ -8,6 +9,8 @@ def setup():
     try:
         os.mkdir(f"{home}/.config/clorg/")
         open(f"{home}/.config/clorg/default.list", "w").write("")
+        url = "https://github.com/UnityTheCoder/Clorg/raw/main/gum"
+        os.system(f"sudo curl -L {url} > /usr/bin/gum")
     except Exception as e:
         print(e)
 
