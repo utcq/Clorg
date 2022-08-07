@@ -9,9 +9,12 @@ home = os.path.expanduser('~')
 def setup():
     try:
         os.mkdir(f"{home}/.config/clorg/")
+    except:
+        pass
+    try:
         open(f"{home}/.config/clorg/default.list", "w").write("")
-        url = "https://github.com/UnityTheCoder/Clorg/raw/main/gum"
-        os.system(f"sudo sh -c 'curl -L {url} > /usr/bin/gum'; sudo chmod +x /usr/bin/gum")
+        #url = "https://github.com/UnityTheCoder/Clorg/raw/main/gum"
+        #os.system(f"sudo sh -c 'curl -L {url} > /usr/bin/gum'; sudo chmod +x /usr/bin/gum")
     except Exception as e:
         print(e)
 
