@@ -312,6 +312,12 @@ def editdesccli():
 
 
 
+def removeallcli():
+    lists = retrieveLists()
+    listx = gw.choose(lists)
+    open(f"{home}/.config/clorg/{listx}.list", "w").write("")
+
+
 
 
 help = """
@@ -328,6 +334,7 @@ help = """
 - removelist
 - editname
 - editdesc
+- removeall
 """
 
 
@@ -360,5 +367,7 @@ if __name__ == "__main__":
             editnamecli()
         elif sys.argv[1] == "editdesc":
             editdesccli()
+        elif sys.argv[1] == "removeall":
+            removeallcli()
 
 
