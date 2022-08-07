@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import lib.wrapper as gw
 import re, os, sys
 from tabulate import tabulate
