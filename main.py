@@ -30,17 +30,20 @@ def add(name: str, desc: str, choosen):
 def read():
     lists = retrieveLists()
     for listx in lists:
-        lilen = len(listx)
-        ascii = f"""
-
-
-    ╒═══════════════════════{"══" * int(lilen/2)}╕
-    │           {listx}     {" " * int(lilen - 1)}│
-    ╘═══════════════════════{"══" * int(lilen/2)}╛"""
+        asciix = tabulate([[str(listx)]],tablefmt="fancy_grid")
+        ascii = []
+        empty = """╒═══════════════════════════════════════════════════════╕
+│                        EMPTY                          │
+╘═══════════════════════════════════════════════════════╛
+        """
+        for line in asciix.split("\n"):
+            ascii.append("           " + line)
+        ascii = "\n\n" + '\n'.join(ascii) 
         activities = []
         list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
         if list == "":
-            continue
+            print(ascii)
+            print(empty)
         lines = list.split("\n")
         i=0
         for line in lines:
@@ -53,16 +56,27 @@ def read():
 
         all_data = [["ID", "Name", "Description", "Status"]
             ]
-        for activity in activities:
-            try:
+        uncomplete = 0
+        complete = 0
+        try:
+            for activity in activities:
+                if activity[3] == "Uncomplete":
+                    uncomplete += 1
+                elif activity[3] == "Completed":
+                    complete += 1
                 activity[3] = activity[3].replace("Uncomplete", "").replace("Completed", "")
                 all_data.append(activity)
-                table = tabulate(all_data,headers='firstrow',tablefmt='fancy_grid')
-                print(ascii)
-                print(table)
+            
+            table = tabulate(all_data,headers='firstrow',tablefmt='fancy_grid')
+            print(ascii)
+            print(table)
+            print(Fore.GREEN + str("────────" * complete), end="")
+            sys.stdout.flush()
+            print(Fore.LIGHTBLACK_EX + str("─────────" * uncomplete) + Fore.RESET + Fore.BLUE + f"      {str(complete)}/{str(uncomplete + complete)}" + Fore.RESET, end="")
+            print("")
+        except:
+            continue
 
-            except:
-                continue
             
 
 
@@ -124,6 +138,11 @@ def cliset():
     selected = gw.choose(lines).replace("", "Uncomplete").replace("", "Completed")
     opt = ["", ""]
     selected2 = gw.choose(opt).replace("", "completed").replace("", "uncompleted")
+    confirm = gw.confirm("Confirm?")
+    if confirm:
+        pass
+    else:
+        return False
     list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
     lines = list.split("\n")
     i=0
@@ -217,6 +236,82 @@ def removelistcli():
 
 
 
+def editname(id: int, name: str, listx):
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
+    lines = list.split("\n")
+    newlist = ""
+    i=0
+    for line in lines:
+        if i == id:
+            ir = re.findall('\[(.*?)\]',line)
+            ir[0] = name
+            string = f"[{ir[0]}] [{ir[1]}] [{ir[2]}]"
+            newlist+= string+"\n"
+        else:
+            newlist+=line+"\n"
+        i+=1
+    open(f"{home}/.config/clorg/{listx}.list", "w").write(newlist)
+
+def editdesc(id: int, desc: str, listx):
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
+    lines = list.split("\n")
+    newlist = ""
+    i=0
+    for line in lines:
+        if i == id:
+            ir = re.findall('\[(.*?)\]',line)
+            ir[1] = desc
+            string = f"[{ir[0]}] [{ir[1]}] [{ir[2]}]"
+            newlist+= string+"\n"
+        else:
+            newlist+=line+"\n"
+        i+=1
+    open(f"{home}/.config/clorg/{listx}.list", "w").write(newlist)
+
+
+
+def editnamecli():
+    lists = retrieveLists()
+    listx = gw.choose(lists)
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip().replace("Uncomplete", "").replace("Completed", "")
+    lines = list.split("\n")
+    selected = gw.choose(lines).replace("", "Uncomplete").replace("", "Completed")
+    newname = gw.input("Name")
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
+    lines = list.split("\n")
+    i=0
+    target = None
+    for line in lines:
+        if line == selected:
+            target = i
+            break
+        i+=1
+    editname(target, newname, listx)
+
+
+
+
+
+def editdesccli():
+    lists = retrieveLists()
+    listx = gw.choose(lists)
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip().replace("Uncomplete", "").replace("Completed", "")
+    lines = list.split("\n")
+    selected = gw.choose(lines).replace("", "Uncomplete").replace("", "Completed")
+    newname = gw.input("Description")
+    list = open(f"{home}/.config/clorg/{listx}.list", "r").read().strip()
+    lines = list.split("\n")
+    i=0
+    target = None
+    for line in lines:
+        if line == selected:
+            target = i
+            break
+        i+=1
+    editdesc(target, newname, listx)
+
+
+
 
 
 help = """
@@ -231,6 +326,8 @@ help = """
 - export
 - newlist
 - removelist
+- editname
+- editdesc
 """
 
 
@@ -259,5 +356,9 @@ if __name__ == "__main__":
             newlistcli()
         elif sys.argv[1] == "removelist":
             removelistcli()
+        elif sys.argv[1] == "editname":
+            editnamecli()
+        elif sys.argv[1] == "editdesc":
+            editdesccli()
 
 
