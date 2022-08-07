@@ -26,7 +26,7 @@ Clorg is a Daily Task CLI Manager
 
 
 # Screenshots
-![Alt text](https://raw.githubusercontent.com/UnityTheCoder/Clorg/main/images/screen1.png)
+![Alt text](https://raw.githubusercontent.com/UnityTheCoder/Clorg/main/images/screen5.png)
 ![Alt text](https://github.com/UnityTheCoder/Clorg/blob/main/images/screen2.png?raw=true)
 
 ![Alt text](https://github.com/UnityTheCoder/Clorg/blob/main/images/screen3.png?raw=true)
