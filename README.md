@@ -14,7 +14,7 @@ Clorg is a Daily Task CLI Manager
 
 # Installation
 
- **[1]** `sudo sh -c "curl -L https://github.com/UnityTheCoder/Clorg/releases/download/v1.0/clorg > /usr/bin/clorg"; sudo chmod +x /usr/bin/clorg`
+ **[1]** `sudo sh -c "curl -L https://github.com/UnityTheCoder/Clorg/raw/main/gum > /usr/bin/gum"`
  
  **[2]** `cd ~; git clone https://github.com/UnityTheCoder/Clorg.git ; cd Clorg; sudo sudo ln -s ~/Clorg/main.py /usr/bin/clorg; chmod +x /usr/bin/clorg`
  
